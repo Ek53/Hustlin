@@ -1,11 +1,17 @@
 import os
+imporimport os
 import sys
 import time
 import requests
 from colorama import *
 from datetime import datetime
+import random
 import json
 import brotli
+import urllib.parse
+import http.server
+import socketserver
+import multiprocessing
 
 red = Fore.LIGHTRED_EX
 yellow = Fore.LIGHTYELLOW_EX
@@ -20,7 +26,15 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Construct the full paths to the files
 data_file = os.path.join(script_dir, "data.txt")
-config_file = os.path.join(script_dir, "config.json")
+
+PORT = 8080
+
+def web_server(): 
+    Handler = http.server.SimpleHTTPRequestHandler
+
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print("serving at port", PORT, flush=True)
+        httpd.serve_forever()
 
 
 class Cowtopia:
@@ -325,6 +339,9 @@ class Cowtopia:
 
 if __name__ == "__main__":
     try:
+        p = multiprocessing.Process(target=web_server, args=())
+        p.daemon = True
+        p.start()
         cowtopia = Cowtopia()
         cowtopia.main()
     except KeyboardInterrupt:
