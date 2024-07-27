@@ -1,14 +1,11 @@
 import os
-import os
 import sys
 import time
 import requests
 from colorama import *
 from datetime import datetime
-import random
 import json
 import brotli
-import urllib.parse
 import http.server
 import socketserver
 import multiprocessing
@@ -26,6 +23,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Construct the full paths to the files
 data_file = os.path.join(script_dir, "data.txt")
+config_file = os.path.join(script_dir, "config.json")
 
 PORT = 8080
 
